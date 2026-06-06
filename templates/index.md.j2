@@ -1,0 +1,16 @@
+# Data Catalog
+
+{{ tables | length }} tables · {{ edge_count }} lineage edges · {{ pii_table_count }} tables with PII
+{% if orphaned %}
+> ⚠ Orphaned models (no dbt lineage): {% for o in orphaned %}`{{ o }}`{% if not loop.last %}, {% endif %}{% endfor %}
+{% endif %}
+See also: [PII report](pii_report.md) · [Lineage diagram](lineage.mmd)
+
+{% for layer, group in by_layer.items() %}
+## {{ layer | capitalize }}
+
+| Table | Owner | Sensitivity | PII | Description |
+|-------|-------|-------------|-----|-------------|
+{% for t in group %}| [{{ t.name }}]({{ t.name }}.md) | {{ t.owner }} | {{ t.sensitivity | capitalize }} | {% if t.pii_columns %}{{ t.pii_columns | length }}{% else %}—{% endif %} | {{ t.description | truncate(80) or "—" }} |
+{% endfor %}
+{% endfor %}

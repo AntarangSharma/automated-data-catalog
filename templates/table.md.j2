@@ -1,0 +1,16 @@
+## {{ table.name }}
+**Description:** {{ table.description or "_No description available._" }}
+
+| | |
+|---|---|
+| **Sensitivity** | {{ table.sensitivity | capitalize }} |
+| **Owner** | {{ table.owner }} |
+| **PII** | {% if table.pii_columns %}{{ table.pii_columns | join(", ") }}{% else %}None{% endif %} |
+| **Layer** | {{ table.layer | capitalize }} |
+
+**Lineage:** {% if upstream %}{% for u in upstream %}`{{ u }}`{% if not loop.last %}, {% endif %}{% endfor %} → {% endif %}**`{{ table.name }}`**{% if downstream %} → {% for d in downstream %}`{{ d }}`{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}
+
+| Column | Type | Description | PII |
+|--------|------|-------------|-----|
+{% for col in table.columns %}| {{ col.name }} | {{ col.data_type }} | {{ col.description or "—" }} | {% if col.pii %}{{ col.pii_type.value }}{% else %}—{% endif %} |
+{% endfor %}

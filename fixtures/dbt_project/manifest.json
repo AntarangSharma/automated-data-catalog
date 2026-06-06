@@ -1,0 +1,623 @@
+{
+  "metadata": {
+    "dbt_schema_version": "https://schemas.getdbt.com/dbt/manifest/v9/manifest.json",
+    "project_name": "demo_shop"
+  },
+  "nodes": {
+    "model.demo_shop.dim_customers": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT stg_customers.*\nFROM stg_customers\nJOIN int_customer_lifetime ON stg_customers.id = int_customer_lifetime.id",
+      "config": {
+        "meta": {
+          "owner": "@alice"
+        }
+      },
+      "meta": {
+        "owner": "@alice"
+      },
+      "name": "dim_customers",
+      "original_file_path": "models/mart/dim_customers.sql",
+      "relation_name": "`analytics`.`mart`.`dim_customers`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.dim_customers"
+    },
+    "model.demo_shop.dim_products": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT stg_products.*\nFROM stg_products\nJOIN int_product_sales ON stg_products.id = int_product_sales.id",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "dim_products",
+      "original_file_path": "models/mart/dim_products.sql",
+      "relation_name": "`analytics`.`mart`.`dim_products`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.dim_products"
+    },
+    "model.demo_shop.fct_orders": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT int_order_items_joined.*\nFROM int_order_items_joined\nJOIN int_payments_enriched ON int_order_items_joined.id = int_payments_enriched.id",
+      "config": {
+        "meta": {
+          "owner": "@alice"
+        }
+      },
+      "meta": {
+        "owner": "@alice"
+      },
+      "name": "fct_orders",
+      "original_file_path": "models/mart/fct_orders.sql",
+      "relation_name": "`analytics`.`mart`.`fct_orders`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.fct_orders"
+    },
+    "model.demo_shop.int_customer_lifetime": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT int_customer_orders.*\nFROM int_customer_orders\nJOIN int_payments_enriched ON int_customer_orders.id = int_payments_enriched.id",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "int_customer_lifetime",
+      "original_file_path": "models/intermediate/int_customer_lifetime.sql",
+      "relation_name": "`analytics`.`intermediate`.`int_customer_lifetime`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.int_customer_lifetime"
+    },
+    "model.demo_shop.int_customer_orders": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT stg_customers.*\nFROM stg_customers\nJOIN stg_orders ON stg_customers.id = stg_orders.id",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "int_customer_orders",
+      "original_file_path": "models/intermediate/int_customer_orders.sql",
+      "relation_name": "`analytics`.`intermediate`.`int_customer_orders`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.int_customer_orders"
+    },
+    "model.demo_shop.int_order_fulfillment": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT stg_orders.*\nFROM stg_orders\nJOIN stg_order_items ON stg_orders.id = stg_order_items.id",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "int_order_fulfillment",
+      "original_file_path": "models/intermediate/int_order_fulfillment.sql",
+      "relation_name": "`analytics`.`intermediate`.`int_order_fulfillment`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.int_order_fulfillment"
+    },
+    "model.demo_shop.int_order_items_joined": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT stg_orders.*\nFROM stg_orders\nJOIN stg_order_items ON stg_orders.id = stg_order_items.id",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "int_order_items_joined",
+      "original_file_path": "models/intermediate/int_order_items_joined.sql",
+      "relation_name": "`analytics`.`intermediate`.`int_order_items_joined`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.int_order_items_joined"
+    },
+    "model.demo_shop.int_payments_enriched": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT stg_payments.*\nFROM stg_payments\nJOIN stg_orders ON stg_payments.id = stg_orders.id",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "int_payments_enriched",
+      "original_file_path": "models/intermediate/int_payments_enriched.sql",
+      "relation_name": "`analytics`.`intermediate`.`int_payments_enriched`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.int_payments_enriched"
+    },
+    "model.demo_shop.int_product_sales": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT stg_products.*\nFROM stg_products\nJOIN stg_order_items ON stg_products.id = stg_order_items.id",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "int_product_sales",
+      "original_file_path": "models/intermediate/int_product_sales.sql",
+      "relation_name": "`analytics`.`intermediate`.`int_product_sales`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.int_product_sales"
+    },
+    "model.demo_shop.int_user_activity": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        },
+        "session_count": {
+          "data_type": "INTEGER",
+          "description": "",
+          "name": "session_count"
+        }
+      },
+      "compiled_code": "SELECT stg_users.*\nFROM stg_users",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "int_user_activity",
+      "original_file_path": "models/intermediate/int_user_activity.sql",
+      "relation_name": "`analytics`.`intermediate`.`int_user_activity`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.int_user_activity"
+    },
+    "model.demo_shop.ml_churn_features": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT fct_orders.*\nFROM fct_orders\nJOIN dim_customers ON fct_orders.id = dim_customers.id\nJOIN int_user_activity ON fct_orders.id = int_user_activity.id",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "ml_churn_features",
+      "original_file_path": "models/mart/ml_churn_features.sql",
+      "relation_name": "`analytics`.`mart`.`ml_churn_features`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.ml_churn_features"
+    },
+    "model.demo_shop.orders_v1": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT raw_orders_legacy.*\nFROM raw_orders_legacy",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "orders_v1",
+      "original_file_path": "models/other/orders_v1.sql",
+      "relation_name": "`analytics`.`other`.`orders_v1`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.orders_v1"
+    },
+    "model.demo_shop.rpt_fulfillment": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT fct_orders.*\nFROM fct_orders\nJOIN int_order_fulfillment ON fct_orders.id = int_order_fulfillment.id",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "rpt_fulfillment",
+      "original_file_path": "models/mart/rpt_fulfillment.sql",
+      "relation_name": "`analytics`.`mart`.`rpt_fulfillment`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.rpt_fulfillment"
+    },
+    "model.demo_shop.rpt_revenue": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT fct_orders.*\nFROM fct_orders",
+      "config": {
+        "meta": {
+          "owner": "@bob"
+        }
+      },
+      "meta": {
+        "owner": "@bob"
+      },
+      "name": "rpt_revenue",
+      "original_file_path": "models/mart/rpt_revenue.sql",
+      "relation_name": "`analytics`.`mart`.`rpt_revenue`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.rpt_revenue"
+    },
+    "model.demo_shop.stg_customers": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "date_of_birth": {
+          "data_type": "DATE",
+          "description": "",
+          "name": "date_of_birth"
+        },
+        "email": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "email"
+        },
+        "email_domain": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "email_domain"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        },
+        "is_email_verified": {
+          "data_type": "BOOLEAN",
+          "description": "",
+          "name": "is_email_verified"
+        },
+        "phone": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "phone"
+        }
+      },
+      "compiled_code": "SELECT raw_customers.*\nFROM raw_customers",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "stg_customers",
+      "original_file_path": "models/staging/stg_customers.sql",
+      "relation_name": "`analytics`.`staging`.`stg_customers`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.stg_customers"
+    },
+    "model.demo_shop.stg_order_items": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT raw_orders.*\nFROM raw_orders",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "stg_order_items",
+      "original_file_path": "models/staging/stg_order_items.sql",
+      "relation_name": "`analytics`.`staging`.`stg_order_items`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.stg_order_items"
+    },
+    "model.demo_shop.stg_orders": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT raw_orders.*\nFROM raw_orders",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "stg_orders",
+      "original_file_path": "models/staging/stg_orders.sql",
+      "relation_name": "`analytics`.`staging`.`stg_orders`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.stg_orders"
+    },
+    "model.demo_shop.stg_payments": {
+      "columns": {
+        "billing_address": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "billing_address"
+        },
+        "card_last4": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "card_last4"
+        },
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT raw_orders.*\nFROM raw_orders",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "stg_payments",
+      "original_file_path": "models/staging/stg_payments.sql",
+      "relation_name": "`analytics`.`staging`.`stg_payments`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.stg_payments"
+    },
+    "model.demo_shop.stg_products": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT raw_products.*\nFROM raw_products",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "stg_products",
+      "original_file_path": "models/staging/stg_products.sql",
+      "relation_name": "`analytics`.`staging`.`stg_products`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.stg_products"
+    },
+    "model.demo_shop.stg_users": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "email": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "email"
+        },
+        "first_name": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "first_name"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        },
+        "last_name": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "last_name"
+        }
+      },
+      "compiled_code": "SELECT raw_customers.*\nFROM raw_customers",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "stg_users",
+      "original_file_path": "models/staging/stg_users.sql",
+      "relation_name": "`analytics`.`staging`.`stg_users`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.stg_users"
+    },
+    "model.demo_shop.users_archive": {
+      "columns": {
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "description": "",
+          "name": "created_at"
+        },
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "compiled_code": "SELECT raw_users_legacy.*\nFROM raw_users_legacy",
+      "config": {
+        "meta": {}
+      },
+      "meta": {},
+      "name": "users_archive",
+      "original_file_path": "models/other/users_archive.sql",
+      "relation_name": "`analytics`.`other`.`users_archive`",
+      "resource_type": "model",
+      "unique_id": "model.demo_shop.users_archive"
+    }
+  },
+  "sources": {
+    "source.demo_shop.raw_customers.raw_customers": {
+      "columns": {
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "name": "raw_customers",
+      "original_file_path": "models/staging/_sources.yml",
+      "relation_name": "`raw`.`raw_customers`",
+      "resource_type": "source",
+      "unique_id": "source.demo_shop.raw_customers.raw_customers"
+    },
+    "source.demo_shop.raw_orders.raw_orders": {
+      "columns": {
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "name": "raw_orders",
+      "original_file_path": "models/staging/_sources.yml",
+      "relation_name": "`raw`.`raw_orders`",
+      "resource_type": "source",
+      "unique_id": "source.demo_shop.raw_orders.raw_orders"
+    },
+    "source.demo_shop.raw_products.raw_products": {
+      "columns": {
+        "id": {
+          "data_type": "STRING",
+          "description": "",
+          "name": "id"
+        }
+      },
+      "name": "raw_products",
+      "original_file_path": "models/staging/_sources.yml",
+      "relation_name": "`raw`.`raw_products`",
+      "resource_type": "source",
+      "unique_id": "source.demo_shop.raw_products.raw_products"
+    }
+  }
+}

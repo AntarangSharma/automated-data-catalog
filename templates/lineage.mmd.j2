@@ -1,0 +1,7 @@
+graph LR
+{% for layer, names in subgraphs.items() %}{% if names %}  subgraph {{ layer | capitalize }}
+{% for n in names %}    {{ n }}["{{ n }}"]
+{% endfor %}  end
+{% endif %}{% endfor %}
+{% for edge in edges %}  {{ edge[0] }} --> {{ edge[1] }}
+{% endfor %}

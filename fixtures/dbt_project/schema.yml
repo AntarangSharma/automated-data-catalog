@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: fct_orders
+    meta:
+      owner: "@alice"
+  - name: dim_customers
+    meta:
+      owner: "@alice"
+  - name: rpt_revenue
+    meta:
+      owner: "@bob"

@@ -1,0 +1,22 @@
+# PII Report
+
+{{ total_pii_columns }} PII columns across {{ pii_tables | length }} tables.
+
+## By PII type
+
+| PII Type | Columns |
+|----------|---------|
+{% for ptype, refs in pii_summary.items() %}| {{ ptype.value }} | {% for r in refs %}`{{ r }}`{% if not loop.last %}, {% endif %}{% endfor %} |
+{% endfor %}
+
+## By table
+
+{% for t in pii_tables %}
+### [{{ t.name }}]({{ t.name }}.md)
+Sensitivity: **{{ t.sensitivity | capitalize }}** · Owner: {{ t.owner }}
+
+| Column | Type | PII Type |
+|--------|------|----------|
+{% for col in t.columns %}{% if col.pii %}| {{ col.name }} | {{ col.data_type }} | {{ col.pii_type.value }} |
+{% endif %}{% endfor %}
+{% endfor %}

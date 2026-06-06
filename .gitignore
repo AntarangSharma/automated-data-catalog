@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtualenv
+.venv/
+venv/
+
+# Generated catalog output
+demo_catalog/
+*.sqlite
+
+# OS
+.DS_Store
+
+# Tooling / session state
+.claude-flow/
+.claude/
